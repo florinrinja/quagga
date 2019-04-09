@@ -1,8 +1,5 @@
 import React, { Component } from 'react';
 import Quagga from 'quagga';
-import Context from './config/Context';
-import ContextProvider from './provider/ContextProvider';
-
 
 
 export default class Scanner extends Component {
@@ -28,9 +25,9 @@ export default class Scanner extends Component {
                 },
                 numOfWorkers: 0,
                 decoder: {
-                    readers: ['ean_reader'],
+                    readers: ['ean_reader', 'ean_8_reader'],
                     debug: {
-                        drawBoundingBox: false,
+                        drawBoundingBox: true,
                         showFrequency: false,
                         drawScanline: false,
                         showPattern: false
@@ -54,10 +51,8 @@ export default class Scanner extends Component {
     }
 
     _onDetected(result) {
-        // console.log(this.context);
         this.props.onDetected(result);
         Quagga.pause();
-
     }
 
     render() {
@@ -65,4 +60,3 @@ export default class Scanner extends Component {
     }
 }
 
-Scanner.contextType=ContextProvider;

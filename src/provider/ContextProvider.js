@@ -5,28 +5,32 @@ const openFood='https://fr.openfoodfacts.org/api/v0/produit/';
 let url;
 
 
+
 class ContextProvider extends Component {
 	constructor(props){
 			super(props);
 			this.state={
 					image: '',
 					name:'',
-					country:''
+					additives:''
 			};
 	}
-	
-	getFood() {
-		const result=this.props.result;
-		console.log(result)
 
-		url=`${openFood}${result}`
+	componentDidMount() {
+		let code= this.props.result;
+		this.getFood(code.codeResult.code)
+	}
+	
+	getFood(code) {
+		url=`${openFood}${code}.json`
     fetch(url)
-      .then(response  =>  response.json())
+			.then(response  =>  response.json())
       .then(response  => {
-        this.setState({
+				
+				this.setState({
           image:  response.product.image_front_url,
-          name:		response.product.product_name_fr,
-          country:response.product.manufacturing_places_tags
+          name:		response.product.product_name,
+          additives:response.product.additives_original_tags
         });
     });
 	} 
